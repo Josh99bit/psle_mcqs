@@ -12,13 +12,10 @@
 $(document).ready(function(){
 
   // when the form 
-  $("form#register").on(
-    "submit", 
-    function(e){ 
+  $("form#register").on( "submit",  function(e){ 
       // prevents page from reloading
       e.preventDefault(); 
 
-      // gets the attributes
       name = $(this).find("input.name").val()
       email = $(this).find("input.email").val()
       password = $(this).find("input.password").val()
@@ -28,17 +25,24 @@ $(document).ready(function(){
         alert ("All the fields are required")
       }
 
-      // makes a POST request to register
-      axios.post('/register', {
-          name: name,
-          email: email,
-          password: password
+      // the parameters needed for the post request
+      given_params = {
+        name: name,
+        email: email,
+        password: password
+      }
+
+      // makes a POST request to register. third param is to submit as params
+      axios.post('/register', null, { 
+          params: given_params
         })
         .then(function (response) {
-          console.log(response);
+          // JOSH TO CHANGE
+          alert ("Supposed to redirect back to home page")
         })
         .catch(function (error) {
-          console.log(error);
+          // SHOULD SHOW THE RIGHT ERROR
+          alert ("Oops, something went wrong. Maybe email is already taken?")
         });    
     }
   )
