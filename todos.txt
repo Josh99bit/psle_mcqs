@@ -1,0 +1,20 @@
+This file documents the key todos from now till launch:
+
+BOTH
+- lock in on flow, required pages and copywriting
+
+JOSH
+- render the question page and the questions 
+- render the overall header template
+- admin page to input questions easily 
+- do simple html tutorial on sololearn
+
+MEOW
+- print out tutorials on session keys and templates, videos url on both
+- setup cloud database and configure accordingly
+- put in css to 
+
+LESSONS
+* When everything was just a function
+* When the way to figure things out is to actually do the work and drill down
+* When the way to understand systems is to understand things in terms of how information flows 

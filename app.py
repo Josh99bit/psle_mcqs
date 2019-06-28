@@ -48,6 +48,7 @@ def get_register_page():
 # handles the register POST request
 @app.route("/register",methods=["POST"])
 def post_register ():
+
   # gets the data from the request context
   email = request.args["email"]
   password=request.args["password"]
@@ -81,10 +82,11 @@ def get_login ():
 def get_questions (qid):
   q=Question.objects(id=qid).first()
   if q==None:
+    # JOSH: This should throw an error
     return"question not found"
   else:
     # return the full page
-    return  render_template("question.html" ,text=q.text,options=q.options)
+    return  render_template("question.html" ,question=q)
 
 @app.route("/add_question",methods=["POST"])
 def add_question ():
@@ -126,8 +128,12 @@ def get_attempted_questions (uid):
 def debug():
   raise
 
-
 ###### HELPER FUNCTIONS #######
+
+def current_user():
+  # pretending to be the user
+  return User.objects().first
+
 
 # converts the byte data into a dictionary 
 def bytes_to_dict(byte_data):
