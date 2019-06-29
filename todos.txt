@@ -4,15 +4,16 @@ BOTH
 - lock in on flow, required pages and copywriting
 
 JOSH
+- add in the session to the authentication, add a logout function that removes the thing, and a current user function
 - render the question page and the questions 
 - render the overall header template
 - admin page to input questions easily 
 - do simple html tutorial on sololearn
+- move classes to a new file and import accordingly
 
 MEOW
 - print out tutorials on session keys and templates, videos url on both
 - setup cloud database and configure accordingly
-- put in css to 
 
 LESSONS
 * When everything was just a function

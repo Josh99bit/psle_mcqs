@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify,render_template
+from flask import Flask, request, jsonify,render_template, session
+# import session
+from flask_session import Session
 # data-object mapper
 from mongoengine import *
 # json library 
@@ -9,6 +11,14 @@ connect('psle_test')
 
 # starts the application 
 app = Flask(__name__)
+
+# set up the session
+SESSION_TYPE = 'mongodb'
+Session(app)
+
+# sets a few randomly given context
+app.config.from_object(__name__)
+app.secret_key = "ee08a4d7ab79568073415f1667a78ed1"
 
 # defines the user class
 class User(Document):
@@ -34,6 +44,7 @@ class Attempt(Document):
   question=ReferenceField(Question,required=True)
   given_answer=IntField(required=True)
   user=ReferenceField(User,required=True)
+
 
 # homepage
 @app.route("/")
@@ -112,6 +123,17 @@ def attempt (qid):
 @app.route("/debug")
 def debug():
   raise
+
+# TESTING KEYS
+@app.route("/test_setting_key")
+def test_setting_key():
+  session["key"] = "testing123"
+  return "ok"
+
+@app.route("/get_setting_key")
+def get_setting_key():
+  return session.get("key", "not set")
+
 
 ###### HELPER FUNCTIONS #######
 

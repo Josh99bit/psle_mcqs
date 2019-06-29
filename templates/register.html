@@ -54,7 +54,10 @@ function isEmpty(str) {
 }
 </script>
 
-<!-- Code to register user-->
+
+{% extends "example_layout.html" %}
+
+{% block content %}
 <h1>Register</h1>
 
 <div>
@@ -71,3 +74,4 @@ function isEmpty(str) {
     <button type="submit">submit</button>
   </form>
 </div>
+{% endblock %}
