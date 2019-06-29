@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 # set up the session
 SESSION_TYPE = 'mongodb'
-Session(app)
+# Session(app)
 
 # sets a few randomly given context
 app.config.from_object(__name__)
@@ -39,6 +39,7 @@ class Question(Document):
   text = StringField(required=True,unique=True)
   answer=IntField(required=True)
   options=ListField(StringField(),required=True)
+  credit=StringField(required=True)
 
 class Attempt(Document):
   question=ReferenceField(Question,required=True)
@@ -49,7 +50,7 @@ class Attempt(Document):
 # homepage
 @app.route("/")
 def homepage():
-  return 'This is the homepage'
+  return render_template("homepage.html")
 
 # handles the register page
 @app.route("/register",methods=["GET"])
@@ -68,6 +69,9 @@ def post_register ():
   # creates and saves the user
   u=User(name=name,email=email,password=password)
   u.save()
+
+  # after the user is saved, set the session
+  session["uid"] = str(u.id)
 
   # returns the user objecct in a json form
   return u.to_json()
@@ -119,32 +123,31 @@ def attempt (qid):
 
   return "this should return if the answer is correct or not"
 
-@app.route("/attempt/<uid>/questions")
-def get_attempted_questions (uid):
-  u=User.objects(id=uid).first()
-  list_of_attempts=Attempt.objects(user=u.id)
-  # should render template
+@app.route("/question/random")
+def random_questions():
+  return "a"
+
+@app.route("/questions/attempted")
+def get_attempted_questions ():
+  u = current_user()
+  if u == None:
+    raise
+  else:
+    return f"supposed to show attempted questions from {u.name}"
 
 @app.route("/debug")
 def debug():
   raise
 
-# TESTING KEYS
-@app.route("/test_setting_key")
-def test_setting_key():
-  session["key"] = "testing123"
-  return "ok"
 
-@app.route("/get_setting_key")
-def get_setting_key():
-  return session.get("key", "not set")
+
 
 
 ###### HELPER FUNCTIONS #######
 
 def current_user():
-  # pretending to be the user
-  return User.objects().first
+  # get the uid from session
+  # supposed to return the user
 
 
 # converts the byte data into a dictionary 
