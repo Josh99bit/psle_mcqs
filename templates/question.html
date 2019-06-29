@@ -1,9 +1,15 @@
-<h1>question</h1>
+{% extends "layout.html" %}
 
-<p>{{question.text}}</p>
+{% block content %}
+<p>Q: {{question.text}}</p>
 
 <p><b>Options:</b></p>
-{% for option in question.options %}
-  <p>{{option}}</p>
-{% endfor %}
+<div>
+  <ol>
+    {% for option in question.options %}
+      <li><a>{{option}}</a></li>
+    {% endfor %}
+  </ol>
+</div>
 
+{% endblock %}

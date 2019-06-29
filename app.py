@@ -77,10 +77,9 @@ def post_register ():
 def post_login ():
   email = request.args["email"]
   password=request.args["password"]
-  # 1: can you change this to get the specific user from the database?
   u = User.objects(email=email,password=password).first()
   if u==None :
-    return "user not found"
+    raise
   else:
     return u.to_json()
 
@@ -123,17 +122,8 @@ def attempt (qid):
 @app.route("/attempt/<uid>/questions")
 def get_attempted_questions (uid):
   u=User.objects(id=uid).first()
-  return u.name
-  
-  # if u==None :
-  #   return "user not found"
-  # else: 
-  #   list_of_attempts=Attempt.objects(user=u.id)
-  #   for h in list_of_attempts:
-      
-
-
-  #   return a.question
+  list_of_attempts=Attempt.objects(user=u.id)
+  # should render template
 
 @app.route("/debug")
 def debug():

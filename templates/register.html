@@ -23,6 +23,7 @@ $(document).ready(function(){
       // do not do the post request if any of these is missing
       if (isEmpty(name) || isEmpty(email) || isEmpty(password) ) {
         alert ("All the fields are required")
+        return
       }
 
       // the parameters needed for the post request
@@ -37,8 +38,8 @@ $(document).ready(function(){
           params: given_params
         })
         .then(function (response) {
-          // JOSH TO CHANGE
-          alert ("Supposed to redirect back to home page")
+          alert ("Successfully Registered!")
+          window.location.href="/"
         })
         .catch(function (error) {
           // SHOULD SHOW THE RIGHT ERROR
@@ -55,7 +56,7 @@ function isEmpty(str) {
 </script>
 
 
-{% extends "example_layout.html" %}
+{% extends "layout.html" %}
 
 {% block content %}
 <h1>Register</h1>
