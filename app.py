@@ -96,8 +96,8 @@ def get_questions (qid):
     # JOSH: This should throw an error
     return"question not found"
   else:
-    # This should 
-    return q.text
+    # return the full page
+    return  render_template("question.html" ,question=q)
 
 @app.route("/add_question",methods=["POST"])
 def add_question ():
@@ -119,6 +119,21 @@ def attempt (qid):
   a.save()
 
   return "this should return if the answer is correct or not"
+
+@app.route("/attempt/<uid>/questions")
+def get_attempted_questions (uid):
+  u=User.objects(id=uid).first()
+  return u.name
+  
+  # if u==None :
+  #   return "user not found"
+  # else: 
+  #   list_of_attempts=Attempt.objects(user=u.id)
+  #   for h in list_of_attempts:
+      
+
+
+  #   return a.question
 
 @app.route("/debug")
 def debug():

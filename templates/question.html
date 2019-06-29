@@ -1,0 +1,9 @@
+<h1>question</h1>
+
+<p>{{question.text}}</p>
+
+<p><b>Options:</b></p>
+{% for option in question.options %}
+  <p>{{option}}</p>
+{% endfor %}
+
