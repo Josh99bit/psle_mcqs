@@ -1,10 +1,3 @@
-<!-- library to make get and post requests -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<!-- library to use jquery on this page -->
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-
 <script type="text/javascript">
   
 $(document).ready(function(){
@@ -27,7 +20,7 @@ $(document).ready(function(){
     axios.post("/login", null, {params: params})
       .then(function(response){
         alert ("logined successfully")
-        window.location.href="/"
+        window.location.href="/questions/attempted"
       })
       .catch(function(error){
         alert(error)

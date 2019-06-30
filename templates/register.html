@@ -1,78 +1,23 @@
-<!-- library to make get and post requests -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<!-- library to use jquery on this page -->
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-
-<!-- our code to handle what happens when user registers-->
-<script type="text/javascript">
-
-// when the webpage is loaded
-$(document).ready(function(){
-
-  // when the form 
-  $("form#register").on( "submit",  function(e){ 
-      // prevents page from reloading
-      e.preventDefault(); 
-
-      name = $(this).find("input.name").val()
-      email = $(this).find("input.email").val()
-      password = $(this).find("input.password").val()
-
-      // do not do the post request if any of these is missing
-      if (isEmpty(name) || isEmpty(email) || isEmpty(password) ) {
-        alert ("All the fields are required")
-        return
-      }
-
-      // the parameters needed for the post request
-      given_params = {
-        name: name,
-        email: email,
-        password: password
-      }
-
-      // makes a POST request to register. third param is to submit as params
-      axios.post('/register', null, { 
-          params: given_params
-        })
-        .then(function (response) {
-          alert ("Successfully Registered!")
-          window.location.href="/"
-        })
-        .catch(function (error) {
-          // SHOULD SHOW THE RIGHT ERROR
-          alert ("Oops, something went wrong. Maybe email is already taken?")
-        });    
-    }
-  )
-});
-
-// helper function to 
-function isEmpty(str) {
-  return str == null || str == ""
-}
-</script>
-
-
 {% extends "layout.html" %}
 
-{% block content %}
-<h1>Register</h1>
+{% include "menu.html"%}
 
-<div>
-  <form id = "register">
-    <div>
-      name: <input class="name"/>
-    </div>
-    <div>
-      email: <input  class="email"/>
-    </div>
-    <div>
-      password: <input  class="password"/>
-    </div>
-    <button type="submit">submit</button>
-  </form>
-</div>
+{% block content %}
+
+
+<h3>Register</h3>
+
+<form id = "register">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 {% endblock %}

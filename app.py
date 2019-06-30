@@ -141,14 +141,13 @@ def debug():
 
 
 
-
-
 ###### HELPER FUNCTIONS #######
 
 def current_user():
-  # get the uid from session
-  # supposed to return the user
+  return User.objects.first()
 
+def logged_in():
+  return current_user() != None
 
 # converts the byte data into a dictionary 
 def bytes_to_dict(byte_data):
@@ -159,3 +158,9 @@ def bytes_to_dict(byte_data):
 def log(data, message="TESTING"):
   app.logger.info(message)
   app.logger.info(data)
+
+
+
+# 
+app.jinja_env.globals.update(current_user=current_user)
+app.jinja_env.globals.update(logged_in=logged_in)

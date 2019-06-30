@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 
+{% include "menu.html"%}
+
 {% block content %}
+
+<form>
 <p>Q: {{question.text}}</p>
 
 <p><b>Options:</b></p>
@@ -11,5 +15,12 @@
     {% endfor %}
   </ol>
 </div>
+
+<div>
+  <button type="submit"> Confirm </button>
+</div>
+</form>
+
+<a style = "visibility: hidden;" href="#" id = "next" > next question </a>
 
 {% endblock %}

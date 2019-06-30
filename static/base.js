@@ -1,0 +1,45 @@
+// when the webpage is loaded
+$(document).ready(function(){
+
+  // when the form 
+  $("form#register").on( "submit",  function(e){ 
+      // prevents page from reloading
+      e.preventDefault(); 
+
+      name = $(this).find("input.name").val()
+      email = $(this).find("input.email").val()
+      password = $(this).find("input.password").val()
+
+      // do not do the post request if any of these is missing
+      if (isEmpty(name) || isEmpty(email) || isEmpty(password) ) {
+        alert ("All the fields are required")
+        return
+      }
+
+      // the parameters needed for the post request
+      given_params = {
+        name: name,
+        email: email,
+        password: password
+      }
+
+      // makes a POST request to register. third param is to submit as params
+      axios.post('/register', null, { 
+          params: given_params
+        })
+        .then(function (response) {
+          alert ("Successfully Registered!")
+          window.location.href="/questions/attempted"
+        })
+        .catch(function (error) {
+          // SHOULD SHOW THE RIGHT ERROR
+          alert ("Oops, something went wrong. Maybe email is already taken?")
+        });    
+    }
+  )
+});
+
+// helper function to 
+function isEmpty(str) {
+  return str == null || str == ""
+}
