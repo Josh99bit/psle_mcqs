@@ -1,3 +1,15 @@
-/question/random 
+you:
+homepage copy
+input 15 question
+
+meow:
 improve attempted questions by highlight the wrong ones
-menu. 
+finish the question page
+menu
+  - logined: quesiton attempted and log out
+  - not logged in/link to register
+
+
+NEXT TIME:
+better error messages
+when user have finished the question

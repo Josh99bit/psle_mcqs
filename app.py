@@ -94,16 +94,21 @@ def post_login ():
 def get_login ():
     return render_template('login.html')
 
-# get a question
 @app.route("/questions/<qid>",methods=["GET"])
 def get_questions (qid):
   q=Question.objects(id=qid).first()
   if q==None:
-    # JOSH: This should throw an error
-    return"question not found"
+    raise
   else:
-    # return the full page
     return  render_template("question.html" ,question=q)
+
+@app.route("/get_new_question")
+def get_new_question():
+  attempts = Attempt.objects(user=current_user())
+  qids = list(map(lambda a: a.question.id, attempts))
+  question = Question.objects(id__nin=qids).first()
+  return render_template("question.html",question=question)
+
 
 @app.route("/add_question",methods=["POST"])
 def add_question ():
@@ -127,7 +132,6 @@ def attempt (qid):
   result={"answer":answer,"given_answer":given_answer,"correct":attempt.is_correct()}
   return str(result)
 
-# task2: show list of attempted questions
 @app.route("/questions/attempted")
 def get_attempted_questions ():
   u = current_user()
@@ -136,6 +140,7 @@ def get_attempted_questions ():
   else:
     list_of_attempts=Attempt.objects(user=u)    
     return render_template("attempts.html",attempts=list_of_attempts) 
+
 
   
 @app.route("/debug")
