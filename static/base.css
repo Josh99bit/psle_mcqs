@@ -1,11 +1,13 @@
 @media (min-width: 1200px){
 .container {
     max-width: 720px;
+  }
 }
 
 @media (min-width: 992px){
 .container {
     max-width: 720px;
+  }
 }
 
 h3 {
@@ -34,5 +36,21 @@ h3 {
   text-decoration: none;
 }
 
+.navbar ul li.sentence a {
+  display: inline;
+  padding: 0px
+}
+
 form#attempt_question{
+}
+
+
+.completed_container {
+  margin-top: 30px;
+  display: none;
+}
+
+.completed_container {
+  margin-bottom: : 10px;
+  /*display: none;*/
 }

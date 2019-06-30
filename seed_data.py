@@ -1,7 +1,10 @@
 from mongoengine import *
 from app import User, Question, Attempt
 
-connect('psle_test')
+if app.env == "development":
+  client = connect("psle_test")  
+else:
+  client = connect(db="heroku_xj011t32", username = "heroku_xj011t32", password = "lscprrqcn140o507q29ilb9cbv", host="mongodb://ds345597.mlab.com:45597/")
 
 # remove ALL the users in the database
 User.drop_collection()

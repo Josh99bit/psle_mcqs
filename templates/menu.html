@@ -4,18 +4,21 @@
 
       {% if logged_in()==False %}
       <ul>        
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
+        <li class="sentence">
+          <a href="/register">Register</a> or <a href="login">login</a> to review questions you got wrong!</li>
       </ul>
       {% endif %}
 
       {% if logged_in() == True %}
+      {% set num = current_user().attempt_count() %}
+      {% set wrong = current_user().wrong_count() %}
+
       <ul>        
         <li><a href="/get_new_question">Do MCQs!</a></li>
-        <li><a href="/questions/attempted">Attempted ({{current_user().attempt_count()}})</a></li>
+        <li><a href="/questions/attempted">Attempted ({{num}})</a>
+        </li>
       </ul>
       {% endif %}
-
 
     </div>
   </div>

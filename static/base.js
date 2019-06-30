@@ -9,15 +9,23 @@ $(document).ready(function(){
       "given_answer": given_answer
     }
 
+    // 1. disables buttons
+    $("form button").attr("disabled",  true)
+
     axios.post('/questions/'+qid+'/attempt', null, { 
         params: given_params
       })
-      .then(function (response) {
-        window.response = response
-        alert(response)
+      .then(function (response) { 
+        if (response.data.correct) {
+          $(".completed_container .message").text("Correct")
+        } else {
+          $(".completed_container .message").text("Wrong! Right answer is "+response.data.answer)
+        }
+        $(".completed_container").toggle()
       })
       .catch(function (error) {
         alert("Something went wrong!\n" + error)
+        $("form button").attr("disabled",  false)
       });    
   })
 
@@ -49,7 +57,7 @@ $(document).ready(function(){
         })
         .then(function (response) {
           alert ("Successfully Registered!")
-          window.location.href="/questions/attempted"
+          window.location.href="/get_new_question"
         })
         .catch(function (error) {
           // SHOULD SHOW THE RIGHT ERROR
@@ -76,8 +84,8 @@ $(document).ready(function(){
 
     axios.post("/login", null, {params: params})
       .then(function(response){
-        alert ("logined successfully")
-        window.location.href="/questions/attempted"
+        alert ("Logined successfully")
+        window.location.href="/get_new_question"
       })
       .catch(function(error){
         alert(error)

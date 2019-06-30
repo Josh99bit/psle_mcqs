@@ -1,16 +1,8 @@
-you:
-homepage copy
-input 15 question
-
-meow:
-improve attempted questions by highlight the wrong ones
-finish the question page
-menu
-  - logined: quesiton attempted and log out
-  - not logged in/link to register
-production db
-
-
-NEXT TIME:
-better error messages
-when user have finished the question
+- better error messages
+- move e css/js to local
+- handle the case where there is no more questions
+- set up cascading delete
+- move db connection to heroku env instead of code
+- if logined, do not go to home, go to get_new_question
+- move to different files
+- add logout link

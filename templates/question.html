@@ -12,18 +12,26 @@
   <ol>
     {% for n in range(question.options|length) %}
     <li>
-      <input type="radio" class="form-check-input" id="materialUnchecked-{{n}}" name="materialExampleRadios" value={{n}}>
+      <input type="radio" class="form-check-input" id="materialUnchecked-{{n}}" name="materialExampleRadios" value={{n+1}}>
       <label class="form-check-label" for="materialUnchecked-{{n}}">{{question.options[n]}}</label>
     </li>
     {% endfor %}
   </ol>
 </div>
-
 <div>
   <button type="submit"> Confirm </button>
 </div>
 </form>
 
-<a style = "visibility: hidden;" href="#" id = "next" > next question </a>
+<div id = "message">
+
+</div>
+
+<div class="completed_container">
+  <div class="message">
+    Message Here
+  </div>
+  <h5 ><a href="javascript:window.location.reload(true)" id = "next" > Next Question </a></h5>
+</div>
 
 {% endblock %}

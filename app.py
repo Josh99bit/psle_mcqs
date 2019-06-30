@@ -5,7 +5,7 @@ from flask_session import Session
 from mongoengine import *
 # json library 
 import json
-
+import random
 
 # starts the application 
 app = Flask(__name__)
@@ -15,9 +15,9 @@ app.config.from_object(__name__)
 app.secret_key = "ee08a4d7ab79568073415f1667a78ed1"
 
 if app.env == "development":
-  connect("psle_test")
+  client = connect("psle_test")  
 else:
-  connect(db="heroku_xj011t32", username = "heroku_xj011t32", password = "lscprrqcn140o507q29ilb9cbv", host="mongodb://ds345597.mlab.com:45597/")
+  client = connect(db="heroku_xj011t32", username = "heroku_xj011t32", password = "lscprrqcn140o507q29ilb9cbv", host="mongodb://ds345597.mlab.com:45597/")
 
 # defines the user class
 class User(Document):
@@ -37,6 +37,12 @@ class User(Document):
   def attempt_count(self):
     return Attempt.objects(user = self).count()
 
+  def wrong_count(self):
+    attempts = Attempt.objects(user = self)
+    wrong_attempts = list(filter(lambda a: a.is_correct == False, attempts))
+    return len(wrong_attempts)
+
+
 class Question(Document):
   text = StringField(required=True,unique=True)
   answer=IntField(required=True)
@@ -54,6 +60,9 @@ class Attempt(Document):
 # homepage
 @app.route("/")
 def homepage():
+  if current_user() != None:
+    return redirect("/get_new_question") 
+
   return render_template("homepage.html")
 
 # handles the register page
@@ -106,9 +115,17 @@ def get_questions (qid):
 
 @app.route("/get_new_question")
 def get_new_question():
-  attempts = Attempt.objects(user=current_user())
-  qids = list(map(lambda a: a.question.id, attempts))
-  question = Question.objects(id__nin=qids).first()
+
+  u = current_user()
+  if u != None:
+    attempts = Attempt.objects(user=current_user())
+    qids = list(map(lambda a: a.question.id, attempts))
+    question = Question.objects(id__nin=qids).first()
+
+  else:
+    qid = get_random_qid()
+    question = Question.objects(id=qid).first()
+
   return render_template("question.html",question=question)
 
 
@@ -124,15 +141,18 @@ def add_question ():
 
 @app.route("/questions/<qid>/attempt",methods=["POST"])
 def attempt (qid):
-  given_answer=request.args["given_answer"]
-  u=current_user()
+  given_answer=int(request.args["given_answer"])
   q=Question.objects(id=qid).first()
-  a=Attempt(user=u,question=q,given_answer=given_answer)
-  a.save()
-  given_answer=a.given_answer
-  answer=q.answer
+  answer=int(q.answer)
   correct=given_answer==answer
   result={"answer":answer,"given_answer":given_answer,"correct":correct}
+
+  u=current_user()
+  # if there is a logined user
+  if u != None:
+    a=Attempt(user=u,question=q,given_answer=given_answer)
+    a.save()  
+
   return jsonify(result)
 
 @app.route("/questions/attempted")
@@ -155,6 +175,10 @@ def check_logined_user():
   return current_user().name
 
 
+@app.route("/logout")
+def logout():
+  session.pop("uid")
+  return redirect("/") 
 
 
 ###### HELPER FUNCTIONS #######
@@ -181,6 +205,15 @@ def bytes_to_dict(byte_data):
 def log(data, message="TESTING"):
   app.logger.info(message)
   app.logger.info(data)
+
+def get_random_qid():
+  questions =  Question.objects
+  return random.choice(questions).id
+
+  # col = client["psle_test"].question
+  # s = str(col.aggregate([{ "$sample": { "size": 1 } }]).next()["_id"])
+  # return s
+
 
 app.jinja_env.globals.update(current_user=current_user)
 app.jinja_env.globals.update(logged_in=logged_in)
