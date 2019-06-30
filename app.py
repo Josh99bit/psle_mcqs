@@ -124,7 +124,7 @@ def attempt (qid):
   answer=q.answer
   correct=given_answer==answer
   result={"answer":answer,"given_answer":given_answer,"correct":correct}
-  return str(result)
+  return jsonify(result)
 
 # task2: show list of attempted questions
 @app.route("/questions/attempted")

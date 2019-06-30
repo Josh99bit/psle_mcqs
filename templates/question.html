@@ -4,14 +4,17 @@
 
 {% block content %}
 
-<form>
+<form id="attempt_question" data-qid= "{{question.id}}">
 <p>Q: {{question.text}}</p>
 
-<p><b>Options:</b></p>
-<div>
+<p><b>Tap Answer:</b></p>
+<div class="form-check">
   <ol>
-    {% for option in question.options %}
-      <li><a>{{option}}</a></li>
+    {% for n in range(question.options|length) %}
+    <li>
+      <input type="radio" class="form-check-input" id="materialUnchecked-{{n}}" name="materialExampleRadios" value={{n}}>
+      <label class="form-check-label" for="materialUnchecked-{{n}}">{{question.options[n]}}</label>
+    </li>
     {% endfor %}
   </ol>
 </div>

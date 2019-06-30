@@ -1,6 +1,32 @@
 // when the webpage is loaded
 $(document).ready(function(){
 
+  $("form#attempt_question").on( "submit",  function(e){ 
+    e.preventDefault()
+    given_answer = parseInt($(this).find("input:checked").val())
+    qid = $(this).data("qid")
+    given_params = {
+      "given_answer": given_answer
+    }
+
+    axios.post('/questions/'+qid+'/attempt', null, { 
+        params: given_params
+      })
+      .then(function (response) {
+        window.response = response
+        if (response.correct) {
+
+        }
+        else {
+
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong!\n" + error)
+      });    
+
+  })
+
   // when the form 
   $("form#register").on( "submit",  function(e){ 
       // prevents page from reloading
@@ -70,4 +96,12 @@ $(document).ready(function(){
 // helper function to 
 function isEmpty(str) {
   return str == null || str == ""
+}
+
+function showCorrectAnswer(correct, given_answer, answer) {
+  if (correct){
+    
+  } else {
+    
+  }
 }
