@@ -85,6 +85,7 @@ def post_login ():
   if u==None :
     raise
   else:
+    session["uid"]=str(u.id)
     return u.to_json()
 
 @app.route("/login")
@@ -142,17 +143,25 @@ def get_attempted_questions ():
   
 @app.route("/debug")
 def debug():
-  raise
+  return current_user().name
+
+
 
 
 
 ###### HELPER FUNCTIONS #######
 
-def current_user():
-  return User.objects.first()
 
-def logged_in():
-  return current_user() != None
+# if user is logged in ,return user object otherwise ,return None
+def current_user():
+  uid=session.get("uid")
+  if uid==None :
+    return None
+  else:
+    a=User.objects(id=uid).first()
+    return a
+
+
 
 # converts the byte data into a dictionary 
 def bytes_to_dict(byte_data):
@@ -163,9 +172,3 @@ def bytes_to_dict(byte_data):
 def log(data, message="TESTING"):
   app.logger.info(message)
   app.logger.info(data)
-
-
-
-# 
-app.jinja_env.globals.update(current_user=current_user)
-app.jinja_env.globals.update(logged_in=logged_in)

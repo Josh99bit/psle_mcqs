@@ -37,6 +37,34 @@ $(document).ready(function(){
         });    
     }
   )
+
+  $("form#login").on("submit", function(e){
+    e.preventDefault()
+    email = $(this).find("input.email").val()
+    password = $(this).find("input.password").val()
+
+    // if any field is empty, do not sumit
+    if (isEmpty(email) || isEmpty(password) ) {
+      alert ("All the fields are required")
+      return
+    }
+
+    params = {
+      email: email, 
+      password: password
+    }
+
+    axios.post("/login", null, {params: params})
+      .then(function(response){
+        alert ("logined successfully")
+        window.location.href="/questions/attempted"
+      })
+      .catch(function(error){
+        alert(error)
+      })
+
+  })
+
 });
 
 // helper function to 

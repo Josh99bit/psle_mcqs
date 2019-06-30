@@ -11,7 +11,7 @@ Attempt.drop_collection()
 # create users
 u1 = User(name="Joshua",email="joshua@gmail.com" ,password="cowhead")
 u1.save()
-u2 = User(name="Isaac",email="Isaac@gmail.com" ,password="cow")
+u2 = User(name="Isaac",email="isaac@gmail.com" ,password="cow")
 u2.save()
 u3 = User(name="Cow",email="cow@gmail.com" ,password="milk")
 u3.save()
