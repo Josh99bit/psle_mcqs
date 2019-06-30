@@ -135,6 +135,11 @@ def get_attempted_questions ():
   else:
     return f"supposed to show attempted questions from {u.name}"
 
+  # u=User.objects(id=uid).first()
+  # attempts=Attempt.objects(user=u)
+  # return render_template("attempts.html", attempts=attempts)
+
+  
 @app.route("/debug")
 def debug():
   raise
