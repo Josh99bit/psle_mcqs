@@ -6,9 +6,9 @@ $(document).ready(function(){
       // prevents page from reloading
       e.preventDefault(); 
 
-      name = $(this).find("input.name").val()
-      email = $(this).find("input.email").val()
-      password = $(this).find("input.password").val()
+      name = $(this).find("input#name").val()
+      email = $(this).find("input#email").val()
+      password = $(this).find("input#password").val()
 
       // do not do the post request if any of these is missing
       if (isEmpty(name) || isEmpty(email) || isEmpty(password) ) {
@@ -40,8 +40,8 @@ $(document).ready(function(){
 
   $("form#login").on("submit", function(e){
     e.preventDefault()
-    email = $(this).find("input.email").val()
-    password = $(this).find("input.password").val()
+    email = $(this).find("input#email").val()
+    password = $(this).find("input#password").val()
 
     // if any field is empty, do not sumit
     if (isEmpty(email) || isEmpty(password) ) {
