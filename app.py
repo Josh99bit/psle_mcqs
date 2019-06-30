@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify,render_template
+from flask import Flask, request, jsonify,render_template, session
+# import session
+from flask_session import Session
 # data-object mapper
 from mongoengine import *
 # json library 
@@ -9,6 +11,14 @@ connect('psle_test')
 
 # starts the application 
 app = Flask(__name__)
+
+# set up the session
+SESSION_TYPE = 'mongodb'
+# Session(app)
+
+# sets a few randomly given context
+app.config.from_object(__name__)
+app.secret_key = "ee08a4d7ab79568073415f1667a78ed1"
 
 # defines the user class
 class User(Document):
@@ -29,16 +39,18 @@ class Question(Document):
   text = StringField(required=True,unique=True)
   answer=IntField(required=True)
   options=ListField(StringField(),required=True)
+  credit=StringField(required=True)
 
 class Attempt(Document):
   question=ReferenceField(Question,required=True)
   given_answer=IntField(required=True)
   user=ReferenceField(User,required=True)
 
+
 # homepage
 @app.route("/")
 def homepage():
-  return 'This is the homepage'
+  return render_template("homepage.html")
 
 # handles the register page
 @app.route("/register",methods=["GET"])
@@ -58,6 +70,9 @@ def post_register ():
   u=User(name=name,email=email,password=password)
   u.save()
 
+  # after the user is saved, set the session
+  session["uid"] = str(u.id)
+
   # returns the user objecct in a json form
   return u.to_json()
 
@@ -66,10 +81,9 @@ def post_register ():
 def post_login ():
   email = request.args["email"]
   password=request.args["password"]
-  # 1: can you change this to get the specific user from the database?
   u = User.objects(email=email,password=password).first()
   if u==None :
-    return "user not found"
+    raise
   else:
     return u.to_json()
 
@@ -109,23 +123,36 @@ def attempt (qid):
 
   return "this should return if the answer is correct or not"
 
-@app.route("/attempt/<uid>/questions")
-def get_attempted_questions (uid):
-  u=User.objects(id=uid).first()
-  attempts=Attempt.objects(user=u)
-  return render_template("attempts.html", attempts=attempts)
-  
+@app.route("/question/random")
+def random_questions():
+  return "a"
+
+@app.route("/questions/attempted")
+def get_attempted_questions ():
+  u = current_user()
+  if u == None:
+    raise
+  else:
+    return f"supposed to show attempted questions from {u.name}"
+
+  # u=User.objects(id=uid).first()
+  # attempts=Attempt.objects(user=u)
+  # return render_template("attempts.html", attempts=attempts)
 
   
 @app.route("/debug")
 def debug():
   raise
 
+
+
+
+
 ###### HELPER FUNCTIONS #######
 
 def current_user():
-  # pretending to be the user
-  return User.objects().first
+  # get the uid from session
+  # supposed to return the user
 
 
 # converts the byte data into a dictionary 

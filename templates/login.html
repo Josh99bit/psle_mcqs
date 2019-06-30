@@ -1,4 +1,52 @@
-<h1>login</h1>
+<!-- library to make get and post requests -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- library to use jquery on this page -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+  $("form#login").on("submit", function(e){
+    e.preventDefault()
+    email = $(this).find("input.email").val()
+    password = $(this).find("input.password").val()
+
+    // if any field is empty, do not sumit
+    if (isEmpty(email) || isEmpty(password) ) {
+      alert ("All the fields are required")
+      return
+    }
+
+    params = {
+      email: email, 
+      password: password
+    }
+
+    axios.post("/login", null, {params: params})
+      .then(function(response){
+        alert ("logined successfully")
+        window.location.href="/"
+      })
+      .catch(function(error){
+        alert(error)
+      })
+
+  })
+})
+
+function isEmpty(str) {
+  return str == null || str == ""
+}
+
+</script>
+
+
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Login</h1>
 
 <div>
   <form id="login">
@@ -13,3 +61,4 @@
     </div>
   </form>
 </div>
+{% endblock %}
