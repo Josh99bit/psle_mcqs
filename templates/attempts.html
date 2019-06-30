@@ -1,7 +1,18 @@
-<h1>Attempts</h1>
+{% extends "layout.html" %}
 
-<p><b>Questions:</b></p>
+{% include "menu.html" %}
+
+{% block content %}
+<h3>Attempted Questions</h3>
+
 {%for attempt in attempts%}
-  <p>{{attempt.question.text}}</p>
-  <p>{{attempt.given_answer}}</p>
+  <p>Q:{{attempt.question.text}}</p>
+  <p>Options:{{attempt.question.options}}</p>
+  <p>Your answer:{{attempt.given_answer}}</p>
+  <p>Correct answer:{{attempt.question.answer}}</p>
+  <p>Correct:{{attempt.is_correct()}}
+  <p>--------------------------------------------</p>
+ 
 {%endfor%}
+
+{% endblock %}

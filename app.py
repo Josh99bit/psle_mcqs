@@ -46,6 +46,8 @@ class Attempt(Document):
   given_answer=IntField(required=True)
   user=ReferenceField(User,required=True,unique_with="question")
 
+  def is_correct(self):
+    return self.given_answer==self.question.answer
 
 # homepage
 @app.route("/")
@@ -133,11 +135,8 @@ def get_attempted_questions ():
   if u == None:
     raise
   else:
-    return
-
-  # u=User.objects(id=uid).first()
-  # attempts=Attempt.objects(user=u)
-  # return render_template("attempts.html", attempts=attempts)
+    list_of_attempts=Attempt.objects(user=u)    
+    return render_template("attempts.html",attempts=list_of_attempts) 
 
   
 @app.route("/debug")
