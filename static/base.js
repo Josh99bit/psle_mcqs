@@ -14,17 +14,11 @@ $(document).ready(function(){
       })
       .then(function (response) {
         window.response = response
-        if (response.correct) {
-
-        }
-        else {
-
-        }
+        alert(response)
       })
       .catch(function (error) {
         alert("Something went wrong!\n" + error)
       });    
-
   })
 
   // when the form 

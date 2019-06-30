@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,render_template, session
+from flask import Flask, request, jsonify,render_template, session, redirect, url_for
 # import session
 from flask_session import Session
 # data-object mapper
@@ -6,9 +6,6 @@ from mongoengine import *
 # json library 
 import json
 
-# if production => mongodb+srv://voom:Tanw7knSIDT2IKpP@cluster0-aoahk.mongodb.net/test?retryWrites=true&w=majority
-# if development => locahost
-connect('psle_test')
 
 # starts the application 
 app = Flask(__name__)
@@ -16,6 +13,11 @@ app = Flask(__name__)
 # sets a few randomly given context
 app.config.from_object(__name__)
 app.secret_key = "ee08a4d7ab79568073415f1667a78ed1"
+
+if app.env == "development":
+  connect("psle_test")
+else:
+  connect(db="heroku_xj011t32", username = "heroku_xj011t32", password = "lscprrqcn140o507q29ilb9cbv", host="mongodb://ds345597.mlab.com:45597/")
 
 # defines the user class
 class User(Document):
@@ -32,6 +34,9 @@ class User(Document):
     }
     return str(user_dict)
   
+  def attempt_count(self):
+    return Attempt.objects(user = self).count()
+
 class Question(Document):
   text = StringField(required=True,unique=True)
   answer=IntField(required=True)
@@ -95,7 +100,7 @@ def get_login ():
 def get_questions (qid):
   q=Question.objects(id=qid).first()
   if q==None:
-    raise
+    abort (404)
   else:
     return  render_template("question.html" ,question=q)
 
@@ -134,7 +139,7 @@ def attempt (qid):
 def get_attempted_questions ():
   u = current_user()
   if u == None:
-    raise
+    return redirect("/login") 
   else:
     list_of_attempts=Attempt.objects(user=u)    
     return render_template("attempts.html",attempts=list_of_attempts) 
@@ -164,7 +169,8 @@ def current_user():
     a=User.objects(id=uid).first()
     return a
 
-
+def logged_in():
+  return current_user() != None
 
 # converts the byte data into a dictionary 
 def bytes_to_dict(byte_data):
@@ -175,3 +181,6 @@ def bytes_to_dict(byte_data):
 def log(data, message="TESTING"):
   app.logger.info(message)
   app.logger.info(data)
+
+app.jinja_env.globals.update(current_user=current_user)
+app.jinja_env.globals.update(logged_in=logged_in)

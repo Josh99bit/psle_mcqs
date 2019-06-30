@@ -8,6 +8,7 @@ finish the question page
 menu
   - logined: quesiton attempted and log out
   - not logged in/link to register
+production db
 
 
 NEXT TIME:
