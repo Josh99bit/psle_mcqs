@@ -112,18 +112,11 @@ def attempt (qid):
 @app.route("/attempt/<uid>/questions")
 def get_attempted_questions (uid):
   u=User.objects(id=uid).first()
-  return u.name
+  attempts=Attempt.objects(user=u)
+  return render_template("attempts.html", attempts=attempts)
   
-  # if u==None :
-  #   return "user not found"
-  # else: 
-  #   list_of_attempts=Attempt.objects(user=u.id)
-  #   for h in list_of_attempts:
-      
 
-
-  #   return a.question
-
+  
 @app.route("/debug")
 def debug():
   raise
