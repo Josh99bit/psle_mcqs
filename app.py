@@ -129,8 +129,9 @@ def attempt (qid):
   a.save()
   given_answer=a.given_answer
   answer=q.answer
-  result={"answer":answer,"given_answer":given_answer,"correct":attempt.is_correct()}
-  return str(result)
+  correct=given_answer==answer
+  result={"answer":answer,"given_answer":given_answer,"correct":correct}
+  return jsonify(result)
 
 @app.route("/questions/attempted")
 def get_attempted_questions ():

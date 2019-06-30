@@ -1,14 +1,40 @@
 // when the webpage is loaded
 $(document).ready(function(){
 
+  $("form#attempt_question").on( "submit",  function(e){ 
+    e.preventDefault()
+    given_answer = parseInt($(this).find("input:checked").val())
+    qid = $(this).data("qid")
+    given_params = {
+      "given_answer": given_answer
+    }
+
+    axios.post('/questions/'+qid+'/attempt', null, { 
+        params: given_params
+      })
+      .then(function (response) {
+        window.response = response
+        if (response.correct) {
+
+        }
+        else {
+
+        }
+      })
+      .catch(function (error) {
+        alert("Something went wrong!\n" + error)
+      });    
+
+  })
+
   // when the form 
   $("form#register").on( "submit",  function(e){ 
       // prevents page from reloading
       e.preventDefault(); 
 
-      name = $(this).find("input.name").val()
-      email = $(this).find("input.email").val()
-      password = $(this).find("input.password").val()
+      name = $(this).find("input#name").val()
+      email = $(this).find("input#email").val()
+      password = $(this).find("input#password").val()
 
       // do not do the post request if any of these is missing
       if (isEmpty(name) || isEmpty(email) || isEmpty(password) ) {
@@ -40,8 +66,8 @@ $(document).ready(function(){
 
   $("form#login").on("submit", function(e){
     e.preventDefault()
-    email = $(this).find("input.email").val()
-    password = $(this).find("input.password").val()
+    email = $(this).find("input#email").val()
+    password = $(this).find("input#password").val()
 
     // if any field is empty, do not sumit
     if (isEmpty(email) || isEmpty(password) ) {
@@ -70,4 +96,12 @@ $(document).ready(function(){
 // helper function to 
 function isEmpty(str) {
   return str == null || str == ""
+}
+
+function showCorrectAnswer(correct, given_answer, answer) {
+  if (correct){
+    
+  } else {
+    
+  }
 }

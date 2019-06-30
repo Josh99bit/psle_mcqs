@@ -1,4 +1,8 @@
   /* nav bar css */
+h3 {
+  margin-bottom: 20px;  
+}
+
 .navbar {
   margin-bottom: 40px;
 }
@@ -21,3 +25,5 @@
   text-decoration: none;
 }
 
+form#attempt_question{
+}
