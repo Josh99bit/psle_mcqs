@@ -44,7 +44,7 @@ class Question(Document):
 class Attempt(Document):
   question=ReferenceField(Question,required=True)
   given_answer=IntField(required=True)
-  user=ReferenceField(User,required=True)
+  user=ReferenceField(User,required=True,unique_with="question")
 
 
 # homepage
@@ -113,21 +113,21 @@ def add_question ():
   return q.to_json()
 
 
+# task3: returns the result in json with tree keys(correct/given_answer/correct_answer)
 @app.route("/questions/<qid>/attempt",methods=["GET"])
 def attempt (qid):
-  uid=request.args['uid']
   given_answer=request.args["given_answer"]
-  u=User.objects(id=uid).first()
+  u=current_user()
   q=Question.objects(id=qid).first()
   a=Attempt(user=u,question=q,given_answer=given_answer)
   a.save()
+  given_answer=a.given_answer
+  answer=q.answer
+  correct=given_answer==answer
+  result={"answer":answer,"given_answer":given_answer,"correct":correct}
+  return str(result)
 
-  return "this should return if the answer is correct or not"
-
-@app.route("/question/random")
-def random_questions():
-  return "a"
-
+# task2: show list of attempted questions
 @app.route("/questions/attempted")
 def get_attempted_questions ():
   u = current_user()
@@ -143,8 +143,11 @@ def get_attempted_questions ():
   
 @app.route("/debug")
 def debug():
-  return current_user().name
+  raise
 
+@app.route("/check_logined_user")
+def check_logined_user():
+  return current_user().name
 
 
 
