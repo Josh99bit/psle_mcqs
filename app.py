@@ -6,15 +6,12 @@ from mongoengine import *
 # json library 
 import json
 
-# connects to psle_test database on mongoengine
+# if production => mongodb+srv://voom:Tanw7knSIDT2IKpP@cluster0-aoahk.mongodb.net/test?retryWrites=true&w=majority
+# if development => locahost
 connect('psle_test')
 
 # starts the application 
 app = Flask(__name__)
-
-# set up the session
-SESSION_TYPE = 'mongodb'
-# Session(app)
 
 # sets a few randomly given context
 app.config.from_object(__name__)
