@@ -46,6 +46,8 @@ class Attempt(Document):
   given_answer=IntField(required=True)
   user=ReferenceField(User,required=True,unique_with="question")
 
+  def is_correct(self):
+    return self.given_answer==self.question.answer
 
 # homepage
 @app.route("/")
@@ -122,8 +124,7 @@ def attempt (qid):
   a.save()
   given_answer=a.given_answer
   answer=q.answer
-  correct=given_answer==answer
-  result={"answer":answer,"given_answer":given_answer,"correct":correct}
+  result={"answer":answer,"given_answer":given_answer,"correct":attempt.is_correct()}
   return str(result)
 
 # task2: show list of attempted questions
@@ -133,11 +134,8 @@ def get_attempted_questions ():
   if u == None:
     raise
   else:
-    return
-
-  # u=User.objects(id=uid).first()
-  # attempts=Attempt.objects(user=u)
-  # return render_template("attempts.html", attempts=attempts)
+    list_of_attempts=Attempt.objects(user=u)    
+    return render_template("attempts.html",attempts=list_of_attempts) 
 
   
 @app.route("/debug")
