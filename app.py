@@ -113,8 +113,7 @@ def add_question ():
   return q.to_json()
 
 
-# task3: returns the result in json with tree keys(correct/given_answer/correct_answer)
-@app.route("/questions/<qid>/attempt",methods=["GET"])
+@app.route("/questions/<qid>/attempt",methods=["POST"])
 def attempt (qid):
   given_answer=request.args["given_answer"]
   u=current_user()
@@ -134,7 +133,7 @@ def get_attempted_questions ():
   if u == None:
     raise
   else:
-    return f"supposed to show attempted questions from {u.name}"
+    return
 
   # u=User.objects(id=uid).first()
   # attempts=Attempt.objects(user=u)
