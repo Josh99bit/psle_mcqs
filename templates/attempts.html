@@ -1,0 +1,7 @@
+<h1>Attempts</h1>
+
+<p><b>Questions:</b></p>
+{%for attempt in attempts%}
+  <p>{{attempt.question.text}}</p>
+  <p>{{attempt.given_answer}}</p>
+{%endfor%}
