@@ -175,11 +175,6 @@ def check_logined_user():
   return current_user().name
 
 
-@app.route("/logout")
-def logout():
-  session.pop("uid")
-  return redirect("/") 
-
 
 ###### HELPER FUNCTIONS #######
 

@@ -1,6 +1,6 @@
 PROJECTS
 - Add joke questions 
-- As the user is answering, show the register page
+- As the user is answering, show the register form
 - Have a "wrong question" page
 - Experiment with explanation
 
