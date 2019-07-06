@@ -1,8 +1,24 @@
+PROJECTS
+- Add joke questions 
+- As the user is answering, show the register page
+- Have a "wrong question" page
+- Experiment with explanation
+
+SMALL PRODUCT TODOS
+- add logout link
 - better error messages
-- move e css/js to local
+- show credit
+
+BUGS
 - handle the case where there is no more questions
+
+TECHNICAL TODOS
+- move remote css/js to local
 - set up cascading delete
 - move db connection to heroku env instead of code
-- if logined, do not go to home, go to get_new_question
-- move to different files
-- add logout link
+- move model to different files
+
+PROBABLE:
+- add link to dircetly access wrong questions
+- probably need a "report link" to report 
+- give link to directly access wrong questions without login
