@@ -7,6 +7,7 @@
 <form id="attempt_question" data-qid= "{{question.id}}">
 <p>Q: {{question.text}}</p>
 
+
 <p><b>Tap Answer:</b></p>
 <div class="form-check">
   <ol>
@@ -16,6 +17,7 @@
       <label class="form-check-label" for="materialUnchecked-{{n}}">{{question.options[n]}}</label>
     </li>
     {% endfor %}
+    
   </ol>
 </div>
 <div>
@@ -23,8 +25,8 @@
 </div>
 </form>
 
-<div id = "message">
-
+<div id = "copyright">
+  <small>From: {{question.credit}}</small>
 </div>
 
 <div class="completed_container">

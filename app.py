@@ -163,8 +163,6 @@ def get_attempted_questions ():
   else:
     list_of_attempts=Attempt.objects(user=u)    
     return render_template("attempts.html",attempts=list_of_attempts) 
-
-
   
 @app.route("/debug")
 def debug():
@@ -174,7 +172,10 @@ def debug():
 def check_logined_user():
   return current_user().name
 
-
+@app.route("/logout")
+def log_out():
+  session.pop("uid",None)
+  return redirect("/")
 
 ###### HELPER FUNCTIONS #######
 
