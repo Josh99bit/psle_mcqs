@@ -17,7 +17,7 @@ app.secret_key = "ee08a4d7ab79568073415f1667a78ed1"
 if app.env == "development":
   client = connect("psle_test")  
 else:
-  client = connect(db="heroku_xj011t32", username = "heroku_xj011t32", password = "lscprrqcn140o507q29ilb9cbv", host="mongodb://ds345597.mlab.com:45597/")
+  client = connect(db="heroku_8g3hphtl", username = "heroku_8g3hphtl", password = "f0mn4k0k6qphe6u5ok7ika9uio", host="mongodb://ds159273.mlab.com:59273/")
 
 # defines the user class
 class User(Document):
